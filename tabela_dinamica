@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Dinâmica</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 14px;
+            color: black;
+        }
+
+        .par {
+            background-color: green;
+        }
+
+        .impar {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Tabela Dinâmica</h1>
+    <button onclick="gerarTabela()">Gerar Tabela</button>
+
+    <table id="tabelaDinamica">
+        <!-- A tabela será gerada aqui -->
+    </table>
+
+    <script>
+        function gerarTabela() {
+            // Solicita a quantidade de linhas e colunas ao usuário
+            const linhas = parseInt(prompt("Digite a quantidade de linhas:"));
+            const colunas = parseInt(prompt("Digite a quantidade de colunas:"));
+
+            if (isNaN(linhas) || isNaN(colunas) || linhas <= 0 || colunas <= 0) {
+                alert("Por favor, insira valores válidos.");
+                return;
+            }
+
+            // Limpa qualquer tabela anterior
+            const tabela = document.getElementById("tabelaDinamica");
+            tabela.innerHTML = '';
+
+            // Gera as linhas e colunas da tabela
+            for (let i = 0; i < linhas; i++) {
+                const linha = tabela.insertRow();
+
+                for (let j = 0; j < colunas; j++) {
+                    const celula = linha.insertCell();
+
+                    // Define a cor de fundo: colunas ímpares em amarelo, colunas pares em verde
+                    if ((j + 1) % 2 === 0) {
+                        celula.classList.add('par');
+                    } else {
+                        celula.classList.add('impar');
+                    }
+
+                    // Exibe as coordenadas da célula
+                    celula.textContent = `(${i + 1}, ${j + 1})`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
