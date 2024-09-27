@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .aprovado {
+            color: green;
+            font-weight: bold;
+        }
+        .reprovado {
+            color: red;
+            font-weight: bold;
+        }
+        .final {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Cadastro de Alunos</h2>
+
+<form id="formulario">
+    Nome: <input type="text" id="nome" required><br><br>
+    RGM: <input type="text" id="rgm" required><br><br>
+    Nota Parcial (máximo 2 pontos): <input type="number" id="nota_p" max="2" min="0" required><br><br>
+    Nota Exercícios (máximo 1 ponto): <input type="number" id="nota_exer" max="1" min="0" required><br><br>
+    Nota Projeto (máximo 2 pontos): <input type="number" id="nota_proj" max="2" min="0" required><br><br>
+    Nota Regimental (máximo 5 pontos): <input type="number" id="nota_reg" max="5" min="0" required><br><br>
+    <button type="button" onclick="cadastrar()">Cadastrar</button>
+    <button type="button" onclick="mostrar()">Exibir Dados</button>
+</form>
+
+<h3>Alunos Cadastrados:</h3>
+<table id="tabelaAlunos">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>RGM</th>
+            <th>Nota Parcial</th>
+            <th>Nota Exercícios</th>
+            <th>Nota Projeto</th>
+            <th>Nota Regimental</th>
+            <th>Média Final</th>
+            <th>Conceito</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    // Vetores para armazenar os dados dos alunos
+    const nomes = [];
+    const rgms = [];
+    const notas_p = [];
+    const notas_exer = [];
+    const notas_proj = [];
+    const notas_reg = [];
+
+    // Função para cadastrar os dados
+    function cadastrar() {
+        const nome = document.getElementById('nome').value;
+        const rgm = document.getElementById('rgm').value;
+        const notaP = parseFloat(document.getElementById('nota_p').value);
+        const notaExer = parseFloat(document.getElementById('nota_exer').value);
+        const notaProj = parseFloat(document.getElementById('nota_proj').value);
+        const notaReg = parseFloat(document.getElementById('nota_reg').value);
+
+        if (nome && rgm && !isNaN(notaP) && !isNaN(notaExer) && !isNaN(notaProj) && !isNaN(notaReg)) {
+            // Armazenar os dados nos vetores
+            nomes.push(nome);
+            rgms.push(rgm);
+            notas_p.push(notaP);
+            notas_exer.push(notaExer);
+            notas_proj.push(notaProj);
+            notas_reg.push(notaReg);
+
+            // Limpar os campos do formulário
+            document.getElementById('formulario').reset();
+        } else {
+            alert("Preencha todos os campos corretamente.");
+        }
+    }
+
+    // Função para mostrar os dados cadastrados
+    function mostrar() {
+        const tbody = document.querySelector('#tabelaAlunos tbody');
+        tbody.innerHTML = ''; // Limpa a tabela antes de exibir os dados
+
+        for (let i = 0; i < nomes.length; i++) {
+            const mediaFinal = calcularNotaFinal(notas_p[i], notas_exer[i], notas_proj[i], notas_reg[i]);
+            const conceito = determinarConceito(mediaFinal);
+
+            const linha = `
+                <tr>
+                    <td>${nomes[i]}</td>
+                    <td>${rgms[i]}</td>
+                    <td>${notas_p[i]}</td>
+                    <td>${notas_exer[i]}</td>
+                    <td>${notas_proj[i]}</td>
+                    <td>${notas_reg[i]}</td>
+                    <td>${mediaFinal.toFixed(2)}</td>
+                    <td class="${conceitoClass(conceito)}">${conceito}</td>
+                </tr>
+            `;
+
+            tbody.innerHTML += linha;
+        }
+    }
+
+    // Função para calcular a nota final
+    function calcularNotaFinal(notaP, notaExer, notaProj, notaReg) {
+        return notaP + notaExer + notaProj + notaReg;
+    }
+
+    // Função para determinar o conceito do aluno
+    function determinarConceito(mediaFinal) {
+        if (mediaFinal >= 7) {
+            return "Aprovado";
+        } else if (mediaFinal >= 5) {
+            return "Avaliação Final";
+        } else {
+            return "Reprovado";
+        }
+    }
+
+    // Função para determinar a classe CSS de acordo com o conceito
+    function conceitoClass(conceito) {
+        if (conceito === "Aprovado") {
+            return "aprovado";
+        } else if (conceito === "Reprovado") {
+            return "reprovado";
+        } else {
+            return "final";
+        }
+    }
+</script>
+
+</body>
+</html>
