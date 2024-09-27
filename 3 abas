@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .tab {
+            display: none;
+        }
+        .tabs {
+            display: flex;
+        }
+        .tabs button {
+            background-color: #cccccc;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .tabs button.active {
+            background-color: #4CAF50;
+        }
+        .content {
+            padding: 20px;
+            background-color: #ffff99;
+            min-height: 200px;
+        }
+        .slideshow img {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Exercício 5 - Abas</h2>
+
+<div class="tabs">
+    <button onclick="openTab('cronometro')" class="active">Cronômetro</button>
+    <button onclick="openTab('slideshow')">Slide Show</button>
+    <button onclick="openTab('tabuada')">Tabuada</button>
+</div>
+
+<div id="cronometro" class="content tab">
+    <h3>Cronômetro</h3>
+    <div id="counter">0</div>
+</div>
+
+<div id="slideshow" class="content tab">
+    <h3>Slide Show</h3>
+    <div class="slideshow">
+        <img id="slideImage" src="imagem1.png" alt="Slide">
+        <br>
+        <button onclick="prevSlide()">Anterior</button>
+        <button onclick="nextSlide()">Próxima</button>
+    </div>
+</div>
+
+<div id="tabuada" class="content tab">
+    <h3>Tabuada</h3>
+    <input type="number" id="numberInput" placeholder="Digite um número">
+    <button onclick="calcularTabuada()">Calcular</button>
+    <div id="tabuadaResult"></div>
+</div>
+
+<script>
+    let activeTab = 'cronometro';
+    let contador = 0;
+    let cronometroInterval;
+
+    // Abre uma aba
+    function openTab(tabName) {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.style.display = 'none';
+        });
+        document.querySelectorAll('.tabs button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.getElementById(tabName).style.display = 'block';
+        document.querySelector(`.tabs button[onclick="openTab('${tabName}')"]`).classList.add('active');
+
+        // Controla o cronômetro
+        if (tabName === 'cronometro') {
+            startCronometro();
+        } else {
+            clearInterval(cronometroInterval);
+        }
+    }
+
+    // Iniciar o cronômetro
+    function startCronometro() {
+        cronometroInterval = setInterval(() => {
+            contador++;
+            document.getElementById('counter').innerText = contador;
+        }, 1000);
+    }
+
+    // Controle do slide show
+    let slideIndex = 0;
+    const slides = ['imagem1.png', 'imagem2.png', 'imagem3.png', 'imagem4.png', 'imagem5.png'];
+
+    function showSlide(index) {
+        document.getElementById('slideImage').src = slides[index];
+    }
+
+    function nextSlide() {
+        slideIndex = (slideIndex + 1) % slides.length;
+        showSlide(slideIndex);
+    }
+
+    function prevSlide() {
+        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+        showSlide(slideIndex);
+    }
+
+    // Calcular tabuada
+    function calcularTabuada() {
+        const number = parseInt(document.getElementById('numberInput').value);
+        const resultDiv = document.getElementById('tabuadaResult');
+        let resultHTML = `<h4>Tabuada do ${number}</h4>`;
+        for (let i = 0; i <= 10; i++) {
+            resultHTML += `${number} x ${i} = ${number * i}<br>`;
+        }
+        resultDiv.innerHTML = resultHTML;
+    }
+
+    // Mostrar primeira aba por padrão
+    openTab('cronometro');
+</script>
+
+</body>
+</html>
