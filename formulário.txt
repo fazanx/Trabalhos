@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Texto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Formulário de Manipulação de Texto</h1>
+
+    <!-- Formulário com campo de texto e botões -->
+    <form id="formTexto" onsubmit="return false;">
+        <label for="campoTexto">Digite uma palavra ou frase:</label>
+        <input type="text" id="campoTexto" name="campoTexto" style="width: 300px;">
+        <br><br>
+        <button type="button" onclick="transformarMaiuscula()">Maiúscula</button>
+        <button type="button" onclick="separarPalavras()">Separar</button>
+    </form>
+
+    <!-- Div onde os resultados serão exibidos -->
+    <div id="resultado"></div>
+
+    <script>
+        // Função para transformar o texto em maiúsculas
+        function transformarMaiuscula() {
+            const texto = document.getElementById("campoTexto").value;
+            const resultadoDiv = document.getElementById("resultado");
+
+            // Exibir o texto todo em maiúsculas na div
+            resultadoDiv.innerHTML = texto.toUpperCase();
+        }
+
+        // Função para separar as palavras e mostrá-las uma em cada linha
+        function separarPalavras() {
+            const texto = document.getElementById("campoTexto").value;
+            const resultadoDiv = document.getElementById("resultado");
+
+            // Dividir as palavras por espaço e juntar as palavras com <br> para exibir uma por linha
+            const palavrasSeparadas = texto.split(' ').join('<br>');
+
+            // Exibir o resultado na div
+            resultadoDiv.innerHTML = palavrasSeparadas;
+        }
+    </script>
+
+</body>
+</html>
