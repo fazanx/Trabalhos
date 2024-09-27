@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Nomes</title>
+    <style>
+        table {
+            background-color: #CCCCCC;
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            font-size: 15px;
+            font-weight: 700;
+            background-color: #000033;
+            color: #CCCCCC;
+        }
+
+        td {
+            font-size: 14px;
+            background-color: #000066;
+            color: #CCCCCC;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #CCCCCC;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tabela de Nomes</h1>
+    <button onclick="adicionarNomes()">Adicionar Nomes</button>
+    <table id="tabelaNomes">
+        <thead>
+            <tr>
+                <th>Índice</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        function adicionarNomes() {
+            let indice = 1;
+            const tabela = document.getElementById("tabelaNomes").getElementsByTagName("tbody")[0];
+
+            while (true) {
+                const nome = prompt("Digite um nome (ou clique em Cancelar para finalizar):");
+
+                if (nome === null) {
+                    break;
+                }
+
+                // Criar uma nova linha e inserir os dados
+                const linha = tabela.insertRow();
+                const celulaIndice = linha.insertCell(0);
+                const celulaNome = linha.insertCell(1);
+
+                celulaIndice.textContent = indice;
+                celulaNome.textContent = nome;
+
+                indice++;
+            }
+        }
+    </script>
+</body>
+</html>
