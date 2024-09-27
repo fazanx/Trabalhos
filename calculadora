@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .calculadora {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #resultado {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            background-color: #004494;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculadora">
+        <input type="text" id="resultado" disabled>
+        <div class="linha">
+            <button onclick="adicionarValor('1')">1</button>
+            <button onclick="adicionarValor('2')">2</button>
+            <button onclick="adicionarValor('3')">3</button>
+            <button onclick="adicionarValor('+')">+</button>
+        </div>
+        <div class="linha">
+            <button onclick="adicionarValor('4')">4</button>
+            <button onclick="adicionarValor('5')">5</button>
+            <button onclick="adicionarValor('6')">6</button>
+            <button onclick="adicionarValor('-')">-</button>
+        </div>
+        <div class="linha">
+            <button onclick="adicionarValor('7')">7</button>
+            <button onclick="adicionarValor('8')">8</button>
+            <button onclick="adicionarValor('9')">9</button>
+            <button onclick="adicionarValor('*')">*</button>
+        </div>
+        <div class="linha">
+            <button onclick="adicionarValor('0')">0</button>
+            <button onclick="calcular()">=</button>
+            <button onclick="adicionarValor('/')">/</button>
+            <button onclick="calcularPotencia()">x^y</button>
+        </div>
+        <div class="linha">
+            <button onclick="calcularRaiz()">√x</button>
+            <button onclick="calcularArredondar()">Arredondar</button>
+            <button onclick="limpar()">C</button>
+        </div>
+    </div>
+
+    <script>
+        function adicionarValor(valor) {
+            const resultado = document.getElementById('resultado');
+            resultado.value += valor;
+        }
+
+        function calcular() {
+            const resultado = document.getElementById('resultado');
+            try {
+                resultado.value = eval(resultado.value);
+            } catch (error) {
+                resultado.value = 'Erro';
+            }
+        }
+
+        function calcularPotencia() {
+            const base = parseFloat(prompt("Digite a base:"));
+            const expoente = parseFloat(prompt("Digite o expoente:"));
+            if (!isNaN(base) && !isNaN(expoente)) {
+                const resultado = Math.pow(base, expoente);
+                document.getElementById('resultado').value = resultado;
+            } else {
+                alert("Por favor, insira valores válidos.");
+            }
+        }
+
+        function calcularRaiz() {
+            const numero = parseFloat(prompt("Digite o número:"));
+            if (!isNaN(numero)) {
+                const resultado = Math.sqrt(numero);
+                document.getElementById('resultado').value = resultado;
+            } else {
+                alert("Por favor, insira um valor válido.");
+            }
+        }
+
+        function calcularArredondar() {
+            const numero = parseFloat(prompt("Digite o número a ser arredondado:"));
+            if (!isNaN(numero)) {
+                const resultado = Math.round(numero);
+                document.getElementById('resultado').value = resultado;
+            } else {
+                alert("Por favor, insira um valor válido.");
+            }
+        }
+
+        function limpar() {
+            document.getElementById('resultado').value = '';
+        }
+    </script>
+
+</body>
+</html>
