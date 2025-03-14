@@ -1,0 +1,82 @@
+// Lista de usuários permitidos
+const usuariosPermitidos = {
+    "Lais": "123456",
+    "Leticia": "123456",
+    "Pablo": "123456",
+    "Denilson": "123456",
+    "Luiz": "123456"
+};
+
+// Função para alternar telas
+function mostrarTela(tela) {
+    document.getElementById("inicio").classList.add("hidden");
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("agenda").classList.add("hidden");
+
+    document.getElementById(tela).classList.remove("hidden");
+}
+
+// Lógica do login
+document.getElementById("login-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let login = document.getElementById("cpf").value;
+    let senha = document.getElementById("password").value;
+
+    if (usuariosPermitidos[login] && usuariosPermitidos[login] === senha) {
+        mostrarTela("agenda");
+        carregarContatos();
+    } else {
+        alert("Login ou senha incorretos!");
+    }
+});
+
+// Mostrar formulário da agenda ao clicar em "Iniciar"
+document.getElementById("start-btn").addEventListener("click", function() {
+    document.getElementById("agenda-content").classList.remove("hidden");
+    this.style.display = "none";
+});
+
+// Lógica de adicionar contatos com LocalStorage
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+
+    if (name && phone) {
+        let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+        contatos.push({ name, phone });
+        localStorage.setItem("contatos", JSON.stringify(contatos));
+
+        carregarContatos();
+        document.getElementById("contact-form").reset();
+    }
+});
+
+// Função para carregar os contatos salvos no LocalStorage
+function carregarContatos(filtro = "") {
+    let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+    let contactList = document.getElementById("contact-list");
+    
+    contactList.innerHTML = "";
+    
+    contatos
+        .filter(contato => contato.name.toLowerCase().includes(filtro.toLowerCase()))
+        .forEach(contato => {
+            let li = document.createElement("li");
+            li.textContent = ${contato.name} - ${contato.phone};
+            li.classList.add("contact-item");
+            contactList.appendChild(li);
+        });
+}
+
+// Função para buscar contatos
+document.getElementById("search").addEventListener("input", function() {
+    carregarContatos(this.value);
+});
+
+// Função de logout
+function logout() {
+    mostrarTela("inicio");
+}
