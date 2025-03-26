@@ -1,20 +1,32 @@
+/* CSS Moderno com Alinhamento Ajustado */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #00115e;
+    background: linear-gradient(135deg, #232526, #414345);
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
+    color: #e0e0e0;
 }
 
 .container {
     text-align: center;
-    background: white;
-    padding: 250px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(160, 41, 41, 0.1);
-    width: 300px;
+    background: #30343F;
+    box-shadow: 10px 10px 20px #1a1a1a, -10px -10px 20px #50545C;
+    padding: 40px;
+    border-radius: 20px;
+    width: 380px;
+    color: #ffffff;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alinha os elementos ao centro */
+}
+
+.container:hover {
+    transform: scale(1.05);
+    box-shadow: 15px 15px 30px #1a1a1a, -15px -15px 30px #50545C;
 }
 
 .hidden {
@@ -22,24 +34,53 @@ body {
 }
 
 button {
-    background-color: #252325;
-    color: rgb(255, 255, 255);
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: white;
     border: none;
-    padding: 30px;
+    padding: 14px;
     cursor: pointer;
-    width: 110%;
-    margin-top: 10px;
-    border-radius: 10px;
+    width: 90%; /* Ajusta o tamanho dos botões */
+    margin: 10px 0; /* Espaçamento uniforme entre os botões */
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
-    background-color: #6780a6;
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 25px rgba(75, 108, 183, 0.7);
 }
 
 input {
-    width: 90%;
-    padding: 15px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 90%; /* Ajusta para o mesmo tamanho dos botões */
+    padding: 14px;
+    margin: 14px 0;
+    border: none;
+    border-radius: 12px;
+    background: #3c3f51;
+    box-shadow: inset 5px 5px 10px #2a2b34, inset -5px -5px 10px #4e505e;
+    color: #ffffff;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+input:focus {
+    box-shadow: inset 7px 7px 14px #2a2b34, inset -7px -7px 14px #4e505e;
+}
+
+/* Animação de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeInUp 0.7s ease;
 }
