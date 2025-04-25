@@ -43,18 +43,19 @@ document.getElementById("contact-form").addEventListener("submit", function(even
 
     let name = document.getElementById("name").value.trim();
     let phone = document.getElementById("phone").value.trim();
+    let secondaryPhone = document.getElementById("secondary-phone").value.trim();
+    let email = document.getElementById("email").value.trim();
     let index = this.dataset.index;
 
     if (name && phone) {
         let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+        let contato = { name, phone, secondaryPhone, email };
 
         if (index) {
-            // Atualiza o contato existente
-            contatos[index] = { name, phone };
+            contatos[index] = contato;
             delete this.dataset.index;
         } else {
-            // Adiciona um novo contato
-            contatos.push({ name, phone });
+            contatos.push(contato);
         }
 
         localStorage.setItem("contatos", JSON.stringify(contatos));
@@ -69,13 +70,16 @@ function carregarContatos(filtro = "") {
     let contactList = document.getElementById("contact-list");
     
     contactList.innerHTML = "";
-    
+
     contatos
         .filter(contato => contato.name.toLowerCase().includes(filtro.toLowerCase()))
         .forEach((contato, index) => {
             let li = document.createElement("li");
             li.innerHTML = `
-                ${contato.name} - ${contato.phone} 
+                <strong>${contato.name}</strong><br>
+                Tel: ${contato.phone}<br>
+                Sec.: ${contato.secondaryPhone || "—"}<br>
+                Email: ${contato.email || "—"}<br>
                 <button onclick="editarContato(${index})">Editar</button>
             `;
             li.classList.add("contact-item");
@@ -88,20 +92,23 @@ function editarContato(index) {
     let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
     let contato = contatos[index];
 
-    // Preenche o formulário com os dados do contato
     document.getElementById("name").value = contato.name;
     document.getElementById("phone").value = contato.phone;
+    document.getElementById("secondary-phone").value = contato.secondaryPhone || "";
+    document.getElementById("email").value = contato.email || "";
 
-    // Armazena o índice do contato que está sendo editado
     document.getElementById("contact-form").dataset.index = index;
 }
 
-// Função para buscar contatos
+// Buscar contatos em tempo real
 document.getElementById("search").addEventListener("input", function() {
     carregarContatos(this.value);
 });
 
-// Função de logout
+// Logout
 function logout() {
     mostrarTela("inicio");
+    document.getElementById("start-btn").style.display = "inline-block";
+    document.getElementById("agenda-content").classList.add("hidden");
 }
+
