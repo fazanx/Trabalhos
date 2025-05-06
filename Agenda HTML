@@ -30,7 +30,6 @@
         <button id="start-btn">Iniciar</button>
 
         <div id="agenda-content" class="hidden">
-            <!-- Formulário para adicionar ou editar contato -->
             <form id="contact-form">
                 <input type="text" id="name" placeholder="Nome" required>
                 <input type="text" id="phone" placeholder="Telefone" required>
@@ -39,16 +38,13 @@
                 <button type="submit">Salvar Contato</button>
             </form>
 
-            <!-- Campo de busca -->
             <input type="text" id="search" placeholder="Buscar contato...">
-
-            <!-- Lista de contatos -->
             <ul id="contact-list"></ul>
         </div>
 
         <button onclick="logout()">Sair</button>
     </div>
 
-    <script src="Agenda.js"></script>
+    <script src="agenda.js"></script>
 </body>
 </html>
