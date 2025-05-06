@@ -1,4 +1,4 @@
-// Lista de usuários permitidos
+// Usuários permitidos
 const usuariosPermitidos = {
     "Lais": "123456",
     "Leticia": "123456",
@@ -7,7 +7,7 @@ const usuariosPermitidos = {
     "Luiz": "123456"
 };
 
-// Função para alternar telas
+// Alterna telas
 function mostrarTela(tela) {
     document.getElementById("inicio").classList.add("hidden");
     document.getElementById("login").classList.add("hidden");
@@ -16,14 +16,13 @@ function mostrarTela(tela) {
     document.getElementById(tela).classList.remove("hidden");
 }
 
-// Lógica do login
-document.getElementById("login-form").addEventListener("submit", function(event) {
+// Login
+document.getElementById("login-form").addEventListener("submit", function (event) {
     event.preventDefault();
-
     let login = document.getElementById("cpf").value;
     let senha = document.getElementById("password").value;
 
-    if (usuariosPermitidos[login] && usuariosPermitidos[login] === senha) {
+    if (usuariosPermitidos[login] === senha) {
         mostrarTela("agenda");
         carregarContatos();
     } else {
@@ -31,14 +30,14 @@ document.getElementById("login-form").addEventListener("submit", function(event)
     }
 });
 
-// Mostrar formulário da agenda ao clicar em "Iniciar"
-document.getElementById("start-btn").addEventListener("click", function() {
+// Mostrar formulário ao clicar em iniciar
+document.getElementById("start-btn").addEventListener("click", function () {
     document.getElementById("agenda-content").classList.remove("hidden");
     this.style.display = "none";
 });
 
-// Lógica de adicionar ou editar contatos com LocalStorage
-document.getElementById("contact-form").addEventListener("submit", function(event) {
+// Adicionar/Editar contato
+document.getElementById("contact-form").addEventListener("submit", function (event) {
     event.preventDefault();
 
     let name = document.getElementById("name").value.trim();
@@ -64,30 +63,31 @@ document.getElementById("contact-form").addEventListener("submit", function(even
     }
 });
 
-// Função para carregar os contatos salvos no LocalStorage
+// Carregar contatos
 function carregarContatos(filtro = "") {
     let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
     let contactList = document.getElementById("contact-list");
-    
+
     contactList.innerHTML = "";
 
     contatos
         .filter(contato => contato.name.toLowerCase().includes(filtro.toLowerCase()))
         .forEach((contato, index) => {
             let li = document.createElement("li");
+            li.className = "contact-item";
             li.innerHTML = `
                 <strong>${contato.name}</strong><br>
                 Tel: ${contato.phone}<br>
                 Sec.: ${contato.secondaryPhone || "—"}<br>
                 Email: ${contato.email || "—"}<br>
                 <button onclick="editarContato(${index})">Editar</button>
+                <button onclick="excluirContato(${index})">Excluir</button>
             `;
-            li.classList.add("contact-item");
             contactList.appendChild(li);
         });
 }
 
-// Função para editar contatos
+// Editar contato
 function editarContato(index) {
     let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
     let contato = contatos[index];
@@ -100,8 +100,18 @@ function editarContato(index) {
     document.getElementById("contact-form").dataset.index = index;
 }
 
+// Excluir contato
+function excluirContato(index) {
+    if (confirm("Tem certeza que deseja excluir este contato?")) {
+        let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+        contatos.splice(index, 1);
+        localStorage.setItem("contatos", JSON.stringify(contatos));
+        carregarContatos();
+    }
+}
+
 // Buscar contatos em tempo real
-document.getElementById("search").addEventListener("input", function() {
+document.getElementById("search").addEventListener("input", function () {
     carregarContatos(this.value);
 });
 
